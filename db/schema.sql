@@ -3,27 +3,29 @@ CREATE DATABASE employee_tracker_db;
 
 USE employee_tracker_db;
 
-CREATE TABLE departments (
-  dept_name VARCHAR(30) NOT NULL,   
-  id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  date_updated DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL
+CREATE TABLE department (
+  id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  dept_name VARCHAR(30) NOT NULL
 );
 
 CREATE TABLE roles (
-    title VARCHAR(30) NOT NULL, 
     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    department VARCHAR(30) NOT NULL, 
+    title VARCHAR(30) NOT NULL, 
     salary DECIMAL UNSIGNED NOT NULL,
-    date_updated DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL
+    department_id INT UNSIGNED NOT NULL, 
+    FOREIGN KEY (department_id)
+    REFERENCES department(id)
 );
 
-CREATE TABLE employees (
-    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    first_name VARCHAR(30) NOT NULL, 
-    last_name VARCHAR(30) NOT NULL, 
-    job_title VARCHAR(30) NOT NULL, 
-    department VARCHAR(30) NOT NULL, 
-    salary DECIMAL UNSIGNED NOT NULL,
-    managers VARCHAR(30) NOT NULL,
-    date_updated DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL
-);
+-- CREATE TABLE employee (
+--     id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+--     first_name VARCHAR(30) NOT NULL, 
+--     last_name VARCHAR(30) NOT NULL, 
+--     role_id INT NOT NULL, -- use to display job title, department, salary --
+--     manager_id INT UNSIGNED,
+--     FOREIGN KEY (role_id)
+--     REFERENCES roles(id)
+--     FOREIGN KEY (manager_id)
+--     REFERENCES employee(id)
+-- );
+
