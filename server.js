@@ -14,10 +14,10 @@ const db = mysql.createConnection(
 
 );
 
-doTheNeedful();
+executeAction();
 
 // Function to prompt user
-function doTheNeedful() {
+function executeAction() {
     inquirer
         .prompt({
             type: 'list',
@@ -38,17 +38,23 @@ function doTheNeedful() {
             switch (answers.selection) {
                 case 'View all departments':
                     allDepartments();
-                    doTheNeedful()
                     break;
                 case 'View all roles':
                     allRoles();
-                    doTheNeedful()
                     break;
                 case 'View all employees':
-                    // Execute a function
+                    allEmployees();
                     break;
                 case 'Add a department':
-                    // Execute
+                    inquirer
+                        .prompt([{
+                            name: 'deptName',
+                            type: 'input',
+                            message: 'What is the name of the department?',
+                        }])
+                        .then(answer => {
+                            addDepartment(answer.deptName)
+                        });
                     break;
                 case 'Add a role':
                     // Execute
@@ -63,21 +69,55 @@ function doTheNeedful() {
         })
 };
 
-// Query database
 function allDepartments() {
-    db.query('SELECT * FROM department', function (err, results) {
-        if (err) {
-            console.log(err);
-        }
-        console.table(results);
-    })
+    db.query(`SELECT * FROM department`,
+        function (err, results) {
+            if (err) {
+                console.log(err);
+            }
+            console.table(results);
+        })
+    executeAction();
 };
 
 function allRoles() {
-    db.query('SELECT roles.id, roles.title, roles.salary, department.dept_name AS department FROM roles JOIN department ON roles.department_id = department.id', function (err, results) {
+    db.query(`SELECT roles.id, roles.title, roles.salary, department.dept_name AS department 
+    FROM roles 
+    JOIN department ON roles.department_id = department.id`, function (err, results) {
         if (err) {
             console.log(err);
         }
         console.table(results);
     })
-}; 
+    executeAction();
+};
+
+function allEmployees() {
+    db.query(`SELECT employee.id, employee.first_name, employee.last_name, roles.title, department.dept_name AS department, roles.salary, CONCAT(manager.first_name, ' ', manager.last_name) AS manager
+            FROM employee
+            LEFT JOIN employee manager ON employee.manager_id = manager.id
+            INNER JOIN roles ON employee.role_id = roles.id
+            INNER JOIN department ON roles.department_id = department.id`,
+        function (err, results) {
+            if (err) {
+                console.log(err);
+            }
+            console.table(results);
+        })
+    executeAction();
+};
+
+function addDepartment(departmentName) {
+    db.query('INSERT INTO department (dept_name) VALUES (?)', [departmentName],
+        function (err, results) {
+            if (err) {
+                console.log(err);
+            } else {
+                console.log(`Added ${departmentName} to the database`);
+                executeAction();
+            }
+        })
+};
+
+
+
