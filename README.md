@@ -35,3 +35,5 @@ Right-click on the "index.js" file and select "Open in Integrated Terminal". To 
 
 ## The following video demonstrates the application's functionality
 https://drive.google.com/file/d/15Qj8BF3i-vRWxXcF549H0kdHOfXg1cNm/view?usp=sharing
+
+![Demonstration of application that allows users to view all departments, view all roles, view all employees, add a department, add a role, add an employee, and update an employee role](https://drive.google.com/file/d/15Qj8BF3i-vRWxXcF549H0kdHOfXg1cNm/view?usp=sharing)
