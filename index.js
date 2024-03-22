@@ -7,7 +7,7 @@ const db = mysql.createConnection(
     {
         host: 'localhost',
         user: 'root',
-        password: 'GkSHTkHzE#0ZepcNvV8BH',
+        password: '',
         database: 'employee_tracker_db'
     },
     console.log(`Connected to the employee_tracker_db database.`)
@@ -302,9 +302,3 @@ function updateEmployeeRole(employeeId, newRoleId) {
         }
     )
 };
-
-
-
-
-
-
